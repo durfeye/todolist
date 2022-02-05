@@ -1,0 +1,287 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+html, body {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+.shadowBox {
+    position: absolute;
+    background: black;
+    opacity: 0.5;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    display: none;
+}
+.addTaskBox {
+    position: absolute;
+    z-index: 2;
+    background: #42adf5;
+    border: 1px solid white;
+    height: 36vh;
+    width: 46vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    color: white;
+    gap: 1vh;
+    display: none;
+    padding: 2vh 2vh 0 2vh;
+}
+.addTaskBox button {
+    margin-top: 2vh;
+    height: 4vh;
+    width: 8vh;
+    font-size: 2vh;
+    background: white;
+    border: 0;
+    cursor: pointer;
+}
+.addTaskBox button:first-child {
+    margin-right: 1vh;
+}
+.addTaskBox .errorMsgBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5vh;
+}
+.errorMsgBox .errorMsg {
+    text-align: center;
+    font-weight: bold;
+    color: red;
+    display: none;
+}
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.logo {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #42adf5;
+    color: white;
+    font-size: 8vh;
+    text-shadow: -2px 3px #032033;
+}
+.appBody {
+    display: flex;
+}
+.leftMenu {
+    width: 35vh;
+    background: #74c1fc;
+    min-height: 75vh;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+.standardProjects {
+    color: white;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    margin-top: 2vh;
+}
+.standardProjects i {
+    width: 10%;
+}
+.inbox, .todaysTasks, .weeksTasks {
+    display: flex;
+    gap: 2vh;
+    align-items: center;
+    padding: 0vh 2vh 0 2vh;
+    cursor: pointer;
+    height: 4vh;
+}
+.standardProjects span:hover {
+    background: #164f75;
+}
+.standardProjectBtn {
+    padding-top: 0.5vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+.projectsBox {
+    display: flex;
+    flex-direction: column;
+}
+.projectsBar {
+    display: flex;
+    gap: 8vh;
+    cursor: pointer;
+}
+.projectsBar button {
+    background: transparent;
+    border: 0;
+    color: white;
+}
+.projectsBox ul {
+    flex-direction: column;
+    gap: 0.4vh;
+    margin: 1.5vh 0 0 0;
+    padding: 0;
+    cursor: pointer;
+}
+.project {
+    display: none;
+}
+.projectsBox span {
+    padding: 0.3vh 2vh 0.3vh 2vh;
+}
+.projectsBox ul span:hover {
+    background: #164f75;
+}
+.projectsBox ul li {
+    list-style: none;
+    padding: 0.3vh 2vh 0.3vh 2vh;
+    cursor: pointer;
+    font-size: 1.8vh;
+}
+.projectsBox ul li:hover {
+    background: #164f75;
+}
+.footer {
+    background: #42adf5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    height: 10vh;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.mobileMenuBtn {
+    position: absolute;
+    left: 3vh;
+    width: 5vh;
+    height: 5vh;
+    font-size: 3vh;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: white;
+    color: #42adf5;
+    display: flex;
+}
+.content {
+    min-height: 75vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.actualProjectBox {
+    width: 60%;
+    padding: 5vh;
+    color: black;
+}
+.projectBoxBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4vh 0 2vh;
+}
+.projectBoxBar .actualProjectName {
+    font-size: 4vh;
+}
+.addTaskBtn {
+    cursor: pointer;
+}
+.actualTasks {
+    width: 100%;
+}
+.task {
+    background: #74c1fc;
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0 4vh 0 4vh;
+    align-items: center;
+    border: 1px solid white;
+    font-weight: bold;
+    font-size: 2vh;
+    color: white;
+}
+.taskHead {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    width: 50%;
+}
+.taskName, .taskDate {
+    background: transparent;
+    color: white;
+    border: 0;
+    font-weight: bold;
+    font-size: 2vh;
+}
+.dateBox {
+    width: 45%;
+}
+.operationBtns {
+    display: flex;
+    gap: 1vh;
+    width: 5%;
+}
+.operationBtns i {
+    cursor: pointer;
+}
+.task:hover {
+    background: #164f75;
+}
+@media only screen and (max-width: 900px) {
+    .logo {
+        font-size: 4vh;
+    }
+    .leftMenu {
+        display: none;  
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100%;
+        align-items: center;
+        font-size: 2.5vh;
+    }
+    .actualProjectBox {
+        width: 100%;
+    }
+    .task {
+        padding: 0 1vh 0 1vh;
+    }
+    .projectBoxBar {
+        padding: 0 1vh 0 1vh;
+    }
+    .addTaskBox {
+        width: 95%;
+        height: 40%;
+    }
+    .errorMsgBox {
+        height: 2vh;
+        margin-bottom: 1vh;
+    }
+    .taskHead {
+        width: 40%;
+    }
+    .dateBox {
+        width: 45%
+    }
+    .operationBtns {
+        width: 15%;
+    }
+}
