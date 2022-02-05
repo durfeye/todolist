@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="shadowBox"></div>
+        <div class="addTaskBox">
+            <label name="addTaskBody" id="addTaskBody"></label>
+            Description:
+            <input type="text" for="addTaskBody" class="taskDesc">
+            Importance:
+            <select for="addTaskBody" class="taskImportance">
+                <option name="low">
+                    Low
+                </option>
+                <option name="low">
+                    Medium
+                </option>
+                <option name="low">
+                    High
+                </option>
+            </select>
+            Due to:
+            <input type="date" for="addTaskBody" class="taskBoxDate">
+            <div class="buttonBox">
+                <button class="addTaskBoxBtn">
+                    Add
+                </button>
+                <button class="closeAddTaskBtn">
+                    Close
+                </button>
+            </div>
+            <div class='errorMsgBox'>
+                <span class="errorMsg">
+                    Task description is required!
+                </span>
+            </div>
+        </div>
+        <header class="logo">
+            <button class="mobileMenuBtn">
+                <i class="fa fa-bars"></i>
+            </button>
+            <span>ToDo List</span>
+        </header>
+        <section class="appBody">
+            <nav class="leftMenu" style="display: flex">
+                <div class="standardProjects">
+                    <span class="inbox">
+                        <i class="fas fa-inbox"></i>
+                        <span class="standardProjectBtn">Inbox</span>
+                    </span>
+                    <span class="todaysTasks">
+                        <i class="fas fa-calendar-day"></i>
+                        <span class="standardProjectBtn">Today</span>
+                    </span>
+                    <span class="weeksTasks">
+                        <i class="fas fa-calendar-week"></i> 
+                        <span class="standardProjectBtn">Next 7 Days</span>
+                    </span>
+                </div>
+                <div class="projectsBox">
+                    <div class="projectsBar">
+                        <span>
+                            <i class="fas fa-chevron-down projectsList"></i> Projects
+                        </span>
+                        <button class="addProject">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <ul class="project1 project">
+                        <span>Project 1</span>
+                        <li>Go out with dog</li>
+                        <li>Go out with dog</li>
+                        <li>Go out with dog</li>
+                    </ul>
+                    <ul class="project2 project">
+                        <span>Project 2</span>
+                        <li>Go out with dog</li>
+                        <li>Go out with dog</li>
+                        <li>Go out with dog</li>
+                    </ul>
+                </div>
+            </nav>
+            <section class="content">
+                <div class="actualProjectBox">
+                    <div class="projectBoxBar">
+                        <span class="actualProjectName">Inbox</span>
+                        <span class="addTaskBtn">
+                            <i class="fas fa-plus"></i>
+                        </span>
+                    </div>
+                    <section class="actualTasks"></section>
+                </div>
+            </section>
+        </section>
+        <footer class="footer">
+            by Durfy
+        </footer>
+    </div>
+</body>
+
+</html>
