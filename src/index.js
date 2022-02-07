@@ -1,4 +1,5 @@
 import { format, addDays } from 'date-fns';
+import './style.css';
 
 //get todays date
 const date = new Date();
@@ -6,6 +7,9 @@ const todaysDateFormated = format(date, "yyyy-MM-dd");
 
 //making array for our main tasks - inbox, today and 7 days
 let mainTasks = [];
+
+//making array for our projects
+let projectsArr = [];
 
 //get error msg under information in taskbox if taskdesc = ''
 let errorMsg = document.querySelector('.errorMsg');
@@ -21,6 +25,29 @@ class baseTasks {
     }
 }
 
+class projects {
+    constructor(name, projectTasks) {
+        this.name = name;
+        this.projectTasks = projectTasks;
+    }
+    addToArray(newProject) {
+        projectsArr.push(newProject);
+    }
+}
+
+class usersProjectTask {
+    constructor(name, importance, date) {
+        this.name = name;
+        this.importance = importance;
+        this.date = date;
+    }
+    addToArray(newTask) {
+        let actualProjectName = document.querySelector('.actualProjectName');
+        const actualProject = projectsArr.find(element => element.name == actualProjectName.textContent);
+        actualProject.projectTasks.push(newTask);
+    }
+}
+
 //declare button which finally adds task to array
 const addTaskBoxBtn = document.querySelector('.addTaskBoxBtn');
 
@@ -29,7 +56,16 @@ addTaskBoxBtn.addEventListener('click', () => {
     let taskDesc = document.querySelector('.taskDesc').value;
     let taskImportance = document.querySelector('.taskImportance').value;
     let taskDate = document.querySelector('.taskBoxDate').value;
-    let newTask = new baseTasks(taskDesc, taskImportance, taskDate);
+    let actualProjectName = document.querySelector('.actualProjectName');
+    let newTask;
+    if (actualProjectName.textContent == 'Inbox'
+        || actualProjectName.textContent == 'Today'
+        || actualProjectName.textContent == 'Next 7 Days') {
+        newTask = new baseTasks(taskDesc, taskImportance, taskDate);
+    }
+    else {
+        newTask = new usersProjectTask(taskDesc, taskImportance, taskDate);
+    }
     if (taskDesc != '') {
         errorMsg.style.display = 'none';
         newTask.addToArray(newTask);
@@ -39,6 +75,51 @@ addTaskBoxBtn.addEventListener('click', () => {
         errorMsg.style.display = 'block';
     }
 });
+
+//get addProjectBtn and projectbuttonbox
+const addProjectBtn = document.querySelector('.addProjectBtn');
+const addNewProjectBtn = document.querySelector('.addNewProjectBtn');
+
+addProjectBtn.addEventListener('click', () => {
+    const addProjectBox = document.querySelector('.addProjectBox');
+    const addProjectIcon = document.querySelector('.addProjectIcon');
+    const projectErrorMsg = document.querySelector('.projectErrorMsg');
+    if (addProjectBox.style.display == 'none') {
+        addProjectBox.style.display = 'flex';
+        addProjectIcon.classList.remove('fa-plus');
+        addProjectIcon.classList.add('fa-minus');
+    }
+    else if (addProjectBox.style.display == 'flex') {
+        addProjectBox.style.display = 'none';
+        addProjectIcon.classList.remove('fa-minus');
+        addProjectIcon.classList.add('fa-plus');
+        projectErrorMsg.style.display = 'none';
+    }
+});
+
+//function which adds new project
+addNewProjectBtn.addEventListener('click', () => {
+    let projectName = document.querySelector('.addProjectName');
+    let projectErrorMsg = document.querySelector('.projectErrorMsg');
+    let projectTasks = [];
+    const actualProject = projectsArr.find(element => element.name == projectName.value);
+    if (projectName.value != 'Inbox'
+        && projectName.value != 'Today'
+        && projectName.value != 'Next 7 Days'
+        && projectName.value != ''
+        && !actualProject) {
+        let newProject = new projects(projectName.value, projectTasks);
+        newProject.addToArray(newProject);
+        showActualProjectsList(projectsArr);
+        projectErrorMsg.style.display = 'none';
+        console.log(projectsArr);
+    }
+    else {
+        projectErrorMsg.style.display = 'flex';
+    }
+    projectName.value = ''
+});
+
 const makeTaskElement = ((
     graphicTask, taskHead, taskName, taskImportantLvl,
     dateBox, taskDueTo, noDate, operationBtns,
@@ -210,6 +291,8 @@ const editTask = (() => {
 
 const addEditTaskButton = ((singleTask, taskName, taskImportantLvl, taskDueTo, noDate, editTaskBtn) => {
     editTaskBtn.classList.add('far', 'fa-edit', 'editTaskBtn');
+    const actualProjectName = document.querySelector('.actualProjectName');
+    const actualProject = projectsArr.find(element => element.name == actualProjectName.textContent);
     editTaskBtn.addEventListener('click', () => {
         if (editTaskBtn.classList.contains('far')) {
             editTask.editTaskName(taskName);
@@ -227,8 +310,14 @@ const addEditTaskButton = ((singleTask, taskName, taskImportantLvl, taskDueTo, n
             singleTask.date = taskDueTo.value;
             taskDueTo.disabled = true;
             taskDueTo.style = 'background: transparent; color: black';
-            makeTaskList(mainTasks);
-            console.log(mainTasks);
+            if (actualProject) {
+                makeTaskList(actualProject.projectTasks);
+                console.log(projectsArr);
+            }
+            else {
+                makeTaskList(mainTasks);
+                console.log(mainTasks);
+            }
         }
     });
 });
@@ -243,24 +332,31 @@ const leftMenu = document.querySelector('.leftMenu');
 
 //declare projects button and project box
 const projectsListBtn = document.querySelector('.projectsList');
-const allProjects = document.querySelectorAll('.project');
+const actualProjectsList = document.querySelector('.actualProjectsList');
 
 //function which shows and close addTaskBox
 const toggleAddTaskBox = () => {
     //get and show shadowbox under addTaskBox
     const shadowBox = document.querySelector('.shadowBox');
     shadowBox.style.display = 'block';
-    if (addTaskBox.style.display == 'none' ||
-        addTaskBox.style.display == '') {
-        addTaskBox.style.display = 'flex';
+    if (addTaskBox.classList.contains('hide')) {
+        addTaskBox.classList.remove('hide');
+        addTaskBox.classList.add('show');
+        setTimeout(function () {
+            addTaskBox.style.display = 'flex';
+        }, 0);
     }
 
     const closeAddTaskBtn = document.querySelector('.closeAddTaskBtn');
 
     //function which close addTaskBox
     const closeAddTaskBox = () => {
-        if (addTaskBox.style.display == 'flex') {
-            addTaskBox.style.display = 'none';
+        if (addTaskBox.classList.contains('show')) {
+            addTaskBox.classList.remove('show');
+            addTaskBox.classList.add('hide');
+            setTimeout(function () {
+                addTaskBox.style.display = 'none';
+            }, 100);
             //close shadowbox under addtasakbox
             shadowBox.style.display = 'none';
             errorMsg.style.display = 'none';
@@ -277,29 +373,36 @@ const toggleAddTaskBox = () => {
 //function which powers toggle menu button
 const toggleMobileMenu = () => {
     if (leftMenu.style.display == 'flex') {
-        leftMenu.style.display = 'none';
+        leftMenu.classList.remove('show');
+        leftMenu.classList.add('hide');
+        setTimeout(function () {
+            leftMenu.style.display = 'none';
+        }, 100);
     }
     else if (leftMenu.style.display == 'none' ||
         leftMenu.style.display == '') {
-        leftMenu.style.display = 'flex';
+        leftMenu.classList.remove('hide');
+        leftMenu.classList.add('show');
+        setTimeout(function () {
+            leftMenu.style.display = 'flex';
+        }, 100);
     }
 }
 
 //function with powers toggle projects list button
 const toggleProjectsList = () => {
-    allProjects.forEach(singleProject => {
-        if (singleProject.style.display == 'flex') {
-            singleProject.style.display = 'none';
-            projectsListBtn.classList.remove('fa-chevron-up');
-            projectsListBtn.classList.add('fa-chevron-down');
-        }
-        else if (singleProject.style.display == 'none' ||
-            singleProject.style.display == '') {
-            singleProject.style.display = 'flex';
-            projectsListBtn.classList.remove('fa-chevron-down');
-            projectsListBtn.classList.add('fa-chevron-up');
-        }
-    });
+    const projectsListArrow = document.querySelector('.projectsListArrow');
+    if (actualProjectsList.style.display == 'flex') {
+        actualProjectsList.style.display = 'none';
+        projectsListArrow.classList.remove('fa-chevron-down');
+        projectsListArrow.classList.add('fa-chevron-up');
+    }
+    else if (actualProjectsList.style.display == 'none'
+        || actualProjectsList.style.display == '') {
+        actualProjectsList.style.display = 'flex';
+        projectsListArrow.classList.remove('fa-chevron-up');
+        projectsListArrow.classList.add('fa-chevron-down');
+    }
 }
 
 //calling funcionts with mobile menu button and projects list button
@@ -311,9 +414,18 @@ addTaskBtn.addEventListener('click', toggleAddTaskBox);
 
 //function which deletes given task
 const deleteTask = (taskId) => {
-    mainTasks.splice(taskId, 1);
-    makeTaskList(mainTasks);
-    console.log(mainTasks);
+    let actualProjectName = document.querySelector('.actualProjectName');
+    const actualProject = projectsArr.find(element => element.name == actualProjectName.textContent);
+    if (actualProject) {
+        actualProject.projectTasks.splice(taskId, 1);
+        makeTaskList(actualProject.projectTasks);
+        console.log(projectsArr);
+    }
+    else {
+        mainTasks.splice(taskId, 1);
+        makeTaskList(mainTasks);
+        console.log(mainTasks);
+    }
 }
 
 //call standard project buttons
@@ -326,12 +438,18 @@ standardProjectBtns.forEach(singleButton => {
     });
 });
 
-// //function which makes new array of tasks with date as today
-// const todaysTasks = () => {
+const usersProjectsChoice = () => {
+    let usersProjects = document.querySelectorAll('.singleProject');
+    usersProjects.forEach(oneProject => {
+        oneProject.addEventListener('click', () => {
+            let actualProjectName = document.querySelector('.actualProjectName');
+            actualProjectName.textContent = oneProject.textContent;
+            actualTaskList();
+        });
+    });
+}
 
-
-// }
-
+// function which displays actual task list depending on users choice
 const actualTaskList = () => {
     let taskDesc = document.querySelector('.taskDesc');
     let taskImportance = document.querySelector('.taskImportance');
@@ -341,6 +459,7 @@ const actualTaskList = () => {
     let actualProjectName = document.querySelector('.actualProjectName');
     let todaysTasks = mainTasks.filter(singleTask => singleTask.date === todaysDateFormated);
     let nextWeekTasks = mainTasks.filter(singleTask => singleTask.date <= nextWeekDateFormated);
+    const actualProject = projectsArr.find(element => element.name == actualProjectName.textContent);
     if (actualProjectName.textContent == 'Inbox') {
         makeTaskList(mainTasks);
         console.log(mainTasks);
@@ -353,7 +472,33 @@ const actualTaskList = () => {
         makeTaskList(nextWeekTasks);
         console.log(nextWeekTasks);
     }
+    else if (actualProject) {
+        makeTaskList(actualProject.projectTasks);
+        console.log(projectsArr);
+    }
     taskDesc.value = '';
     taskImportance.value = 'Low';
     taskDate.value = '';
+}
+
+//make single project element 
+const makeSingleProject = (() => {
+    const projectsName = (singleProject) => {
+        let projectElem = document.createElement('ul');
+        projectElem.classList.add('singleProject');
+        projectElem.textContent = singleProject.name;
+        actualProjectsList.appendChild(projectElem);
+    }
+    return {
+        projectsName,
+    }
+})();
+
+//function which displays actual projects list 
+const showActualProjectsList = (array) => {
+    actualProjectsList.innerHTML = '';
+    array.forEach((singleProject) => {
+        makeSingleProject.projectsName(singleProject);
+        usersProjectsChoice();
+    })
 }

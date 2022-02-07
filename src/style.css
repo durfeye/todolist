@@ -4,7 +4,7 @@
 }
 html, body {
     margin: 0;
-    height: 100%;
+    min-height: 100%;
     width: 100%;
 }
 .shadowBox {
@@ -19,7 +19,7 @@ html, body {
 .addTaskBox {
     position: absolute;
     z-index: 2;
-    background: #42adf5;
+    background: #fa5f5f;
     border: 1px solid white;
     height: 36vh;
     width: 46vh;
@@ -31,6 +31,86 @@ html, body {
     gap: 1vh;
     display: none;
     padding: 2vh 2vh 0 2vh;
+}
+.addTaskBox.show {
+    -webkit-animation: in 100ms ease both;
+    animation: in 100ms ease both;
+}
+.addTaskBox.hide {
+    -webkit-animation: out 100ms ease both;
+    animation: out 100ms ease both;
+}
+.leftMenu.show {
+    -webkit-animation: slide-right 0.1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: slide-right 0.1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.leftMenu.hide {
+    -webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+@-webkit-keyframes in {
+    0% { -webkit-transform: scale(0); opacity: 0; visibility: hidden;  }
+    100% { -webkit-transform: scale(1); opacity: 1; visibility: visible; }
+  }
+  
+  @keyframes in {
+    0% { transform: scale(0); opacity: 0; visibility: hidden;  }
+    100% { transform: scale(1); opacity: 1; visibility: visible; }
+  }
+  
+  @-webkit-keyframes out {
+    0% { -webkit-transform: scale(1); opacity: 1; visibility: visible; }
+    100% { -webkit-transform: scale(0); opacity: 0; visibility: hidden; }
+  }
+  
+  @keyframes out {
+    0% { transform: scale(1); opacity: 1; visibility: visible; }
+    100% { transform: scale(0); opacity: 0; visibility: hidden;  }
+  }
+  @-webkit-keyframes slide-right {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(100px);
+              transform: translateX(100px);
+    }
+  }
+  @keyframes slide-right {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(100px);
+              transform: translateX(100px);
+    }
+  }
+  @-webkit-keyframes slide-left {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(-700px);
+              transform: translateX(-700px);
+    }
+  }
+  @keyframes slide-left {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(-700px);
+              transform: translateX(-700px);
+    }
+  }
+.addTaskBox input, select {
+    height: 20vh;
+    border: 0;
+    background: white;
 }
 .addTaskBox button {
     margin-top: 2vh;
@@ -67,7 +147,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #42adf5;
+    background: #858585;
     color: white;
     font-size: 8vh;
     text-shadow: -2px 3px #032033;
@@ -76,14 +156,17 @@ html, body {
     display: flex;
 }
 .leftMenu {
-    width: 35vh;
-    background: #74c1fc;
+    margin-left: -100px;
+    width: 40vh;
+    background: #f78383;
     min-height: 75vh;
     color: white;
     font-weight: bold;
     display: flex;
     flex-direction: column;
     gap: 2vh;
+    font-size: 2.5vh;
+    transition: .6s ease opacity,.6s ease transform;
 }
 .standardProjects {
     color: white;
@@ -94,18 +177,18 @@ html, body {
     margin-top: 2vh;
 }
 .standardProjects i {
-    width: 10%;
+    width: 8%;
 }
 .inbox, .todaysTasks, .weeksTasks {
     display: flex;
-    gap: 2vh;
+    gap: 2.5vh;
     align-items: center;
     padding: 0vh 2vh 0 2vh;
     cursor: pointer;
     height: 4vh;
 }
 .standardProjects span:hover {
-    background: #164f75;
+    background: #fa5f5f;
 }
 .standardProjectBtn {
     padding-top: 0.5vh;
@@ -120,7 +203,7 @@ html, body {
     flex-direction: column;
 }
 .projectsBar {
-    display: flex;
+    display: flex;    
     gap: 8vh;
     cursor: pointer;
 }
@@ -143,7 +226,7 @@ html, body {
     padding: 0.3vh 2vh 0.3vh 2vh;
 }
 .projectsBox ul span:hover {
-    background: #164f75;
+    background: #fa5f5f;
 }
 .projectsBox ul li {
     list-style: none;
@@ -152,10 +235,60 @@ html, body {
     font-size: 1.8vh;
 }
 .projectsBox ul li:hover {
-    background: #164f75;
+    background: #fa5f5f;
+}
+.addProjectBox {
+    flex-direction: column;
+    padding: 1.5vh 1.5vh 0.5vh 1.5vh;
+    height: 11vh;
+}
+.addProjectBtn {
+    cursor: pointer;
+}
+.projectsNameBar {
+    display: flex;
+    margin-top: 0.5vh;
+    height: 4vh;
+}
+.projectsNameBar input {
+    border: 0;
+    background: white;
+    width: 75%;
+    height: 4vh;
+}
+input:focus {
+    outline: none;
+}
+select:focus {
+    outline: none;
+}
+.projectsNameBar button {
+    border: 0;
+    color: white;
+    background: #fa5f5f;
+    font-weight: bold;
+    width: 25%;
+}
+.projectsNameBar button:active {
+    background: #858585;
+}
+.projectErrorBox {
+    margin-top: 1vh;
+    height: 2vh;
+    color: red;
+}
+.projectErrorBox .projectErrorMsg {
+    padding: 0;
+    font-size: 2vh;
+}
+.actualProjectsList {
+    flex-direction: column;
+    padding: 0 1.5vh 0 1.5vh;
+    overflow: auto;
+    max-height: 50vh;
 }
 .footer {
-    background: #42adf5;
+    background: #858585;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -176,14 +309,15 @@ html, body {
     justify-content: center;
     border: 0;
     background: white;
-    color: #42adf5;
+    color: #f78383;
     display: flex;
 }
 .content {
-    min-height: 75vh;
+    max-height: 75vh;
     width: 100%;
     display: flex;
     justify-content: center;
+    overflow: auto;
 }
 .actualProjectBox {
     width: 60%;
@@ -202,11 +336,14 @@ html, body {
 .addTaskBtn {
     cursor: pointer;
 }
+.addTaskBtn i {
+    font-size: 4vh;
+}
 .actualTasks {
     width: 100%;
 }
 .task {
-    background: #74c1fc;
+    background: #f78383;
     height: 5vh;
     width: 100%;
     display: flex;
@@ -231,9 +368,16 @@ html, body {
     font-weight: bold;
     font-size: 2vh;
 }
+.taskName:enabled {
+    width: 90%;
+}
+.taskDate:enabled {
+    width: 36%; 
+}
 .dateBox {
     width: 45%;
 }
+
 .operationBtns {
     display: flex;
     gap: 1vh;
@@ -243,7 +387,7 @@ html, body {
     cursor: pointer;
 }
 .task:hover {
-    background: #164f75;
+    background: #fa5f5f;
 }
 @media only screen and (max-width: 900px) {
     .logo {
@@ -260,6 +404,13 @@ html, body {
     }
     .actualProjectBox {
         width: 100%;
+    }
+    .addProjectBox {
+        padding: 0;
+        margin-top: 1vh;
+        max-width: 30vh;
+        align-self: center;
+        height: 10vh;
     }
     .task {
         padding: 0 1vh 0 1vh;
@@ -278,10 +429,22 @@ html, body {
     .taskHead {
         width: 40%;
     }
+    .taskHead .taskName:enabled {
+        width: 80%;
+    }
     .dateBox {
-        width: 45%
+        width: 45%;
+    }
+    .dateBox input:enabled {
+        width: 85%;
     }
     .operationBtns {
         width: 15%;
     }
+    .projectErrorBox .projectErrorMsg {
+        font-size: 1.8vh;
+    }
+}
+::-webkit-calendar-picker-indicator{
+    margin-left: 0px;
 }
