@@ -287,6 +287,20 @@ select:focus {
     overflow: auto;
     max-height: 50vh;
 }
+.singleProject {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5vh 3.2vh 0.5vh 0;
+}
+.singleProject:hover {
+    background: #fa5f5f;
+}
+.singleProject button {
+    background: transparent;
+    color: white;
+    border: 0;
+    cursor: pointer;
+}
 .footer {
     background: #858585;
     display: flex;

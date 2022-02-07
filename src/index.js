@@ -482,23 +482,47 @@ const actualTaskList = () => {
 }
 
 //make single project element 
-const makeSingleProject = (() => {
+const makeSingleProject = ((projectElem) => {
     const projectsName = (singleProject) => {
-        let projectElem = document.createElement('ul');
+        projectElem = document.createElement('div');
         projectElem.classList.add('singleProject');
-        projectElem.textContent = singleProject.name;
+        let projectName = document.createElement('span');
+        projectName.classList.add('projectName');
+        projectName.textContent = singleProject.name;
+        projectElem.appendChild(projectName);
         actualProjectsList.appendChild(projectElem);
+    }
+    const deleteProjectBtn = (projectId) => {
+        let projectDeleteBtn = document.createElement('button');
+        projectDeleteBtn.classList.add('far', 'fa-trash-alt', 'deleteProjectBtn');
+        projectElem.appendChild(projectDeleteBtn);
+        projectDeleteBtn.addEventListener('click', (event) => {
+            deleteProject(projectId);
+            event.stopPropagation();
+        });
     }
     return {
         projectsName,
+        deleteProjectBtn,
     }
 })();
 
 //function which displays actual projects list 
 const showActualProjectsList = (array) => {
     actualProjectsList.innerHTML = '';
-    array.forEach((singleProject) => {
+    array.forEach((singleProject, projectId) => {
         makeSingleProject.projectsName(singleProject);
+        makeSingleProject.deleteProjectBtn(projectId);
         usersProjectsChoice();
     })
+}
+
+//function which deletes single project
+const deleteProject = (projectId) => {
+    let actualProjectName = document.querySelector('.actualProjectName');
+    actualProjectName.textContent = 'Inbox';
+    projectsArr.splice(projectId, 1);
+    showActualProjectsList(projectsArr);
+    makeTaskList(mainTasks);
+    console.log(projectsArr);
 }
