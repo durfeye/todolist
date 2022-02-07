@@ -1,0 +1,450 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Courier New', Courier, monospace;
+}
+html, body {
+    margin: 0;
+    min-height: 100%;
+    width: 100%;
+}
+.shadowBox {
+    position: absolute;
+    background: black;
+    opacity: 0.5;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    display: none;
+}
+.addTaskBox {
+    position: absolute;
+    z-index: 2;
+    background: #fa5f5f;
+    border: 1px solid white;
+    height: 36vh;
+    width: 46vh;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    color: white;
+    gap: 1vh;
+    display: none;
+    padding: 2vh 2vh 0 2vh;
+}
+.addTaskBox.show {
+    -webkit-animation: in 100ms ease both;
+    animation: in 100ms ease both;
+}
+.addTaskBox.hide {
+    -webkit-animation: out 100ms ease both;
+    animation: out 100ms ease both;
+}
+.leftMenu.show {
+    -webkit-animation: slide-right 0.1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: slide-right 0.1s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+.leftMenu.hide {
+    -webkit-animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	animation: slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+@-webkit-keyframes in {
+    0% { -webkit-transform: scale(0); opacity: 0; visibility: hidden;  }
+    100% { -webkit-transform: scale(1); opacity: 1; visibility: visible; }
+  }
+  
+  @keyframes in {
+    0% { transform: scale(0); opacity: 0; visibility: hidden;  }
+    100% { transform: scale(1); opacity: 1; visibility: visible; }
+  }
+  
+  @-webkit-keyframes out {
+    0% { -webkit-transform: scale(1); opacity: 1; visibility: visible; }
+    100% { -webkit-transform: scale(0); opacity: 0; visibility: hidden; }
+  }
+  
+  @keyframes out {
+    0% { transform: scale(1); opacity: 1; visibility: visible; }
+    100% { transform: scale(0); opacity: 0; visibility: hidden;  }
+  }
+  @-webkit-keyframes slide-right {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(100px);
+              transform: translateX(100px);
+    }
+  }
+  @keyframes slide-right {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(100px);
+              transform: translateX(100px);
+    }
+  }
+  @-webkit-keyframes slide-left {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(-700px);
+              transform: translateX(-700px);
+    }
+  }
+  @keyframes slide-left {
+    0% {
+      -webkit-transform: translateX(0);
+              transform: translateX(0);
+    }
+    100% {
+      -webkit-transform: translateX(-700px);
+              transform: translateX(-700px);
+    }
+  }
+.addTaskBox input, select {
+    height: 20vh;
+    border: 0;
+    background: white;
+}
+.addTaskBox button {
+    margin-top: 2vh;
+    height: 4vh;
+    width: 8vh;
+    font-size: 2vh;
+    background: white;
+    border: 0;
+    cursor: pointer;
+}
+.addTaskBox button:first-child {
+    margin-right: 1vh;
+}
+.addTaskBox .errorMsgBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 5vh;
+}
+.errorMsgBox .errorMsg {
+    text-align: center;
+    font-weight: bold;
+    color: red;
+    display: none;
+}
+.container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.logo {
+    width: 100%;
+    height: 15vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #858585;
+    color: white;
+    font-size: 8vh;
+    text-shadow: -2px 3px #032033;
+}
+.appBody {
+    display: flex;
+}
+.leftMenu {
+    margin-left: -100px;
+    width: 40vh;
+    background: #f78383;
+    min-height: 75vh;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    font-size: 2.5vh;
+    transition: .6s ease opacity,.6s ease transform;
+}
+.standardProjects {
+    color: white;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+    margin-top: 2vh;
+}
+.standardProjects i {
+    width: 8%;
+}
+.inbox, .todaysTasks, .weeksTasks {
+    display: flex;
+    gap: 2.5vh;
+    align-items: center;
+    padding: 0vh 2vh 0 2vh;
+    cursor: pointer;
+    height: 4vh;
+}
+.standardProjects span:hover {
+    background: #fa5f5f;
+}
+.standardProjectBtn {
+    padding-top: 0.5vh;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+.projectsBox {
+    display: flex;
+    flex-direction: column;
+}
+.projectsBar {
+    display: flex;    
+    gap: 8vh;
+    cursor: pointer;
+}
+.projectsBar button {
+    background: transparent;
+    border: 0;
+    color: white;
+}
+.projectsBox ul {
+    flex-direction: column;
+    gap: 0.4vh;
+    margin: 1.5vh 0 0 0;
+    padding: 0;
+    cursor: pointer;
+}
+.project {
+    display: none;
+}
+.projectsBox span {
+    padding: 0.3vh 2vh 0.3vh 2vh;
+}
+.projectsBox ul span:hover {
+    background: #fa5f5f;
+}
+.projectsBox ul li {
+    list-style: none;
+    padding: 0.3vh 2vh 0.3vh 2vh;
+    cursor: pointer;
+    font-size: 1.8vh;
+}
+.projectsBox ul li:hover {
+    background: #fa5f5f;
+}
+.addProjectBox {
+    flex-direction: column;
+    padding: 1.5vh 1.5vh 0.5vh 1.5vh;
+    height: 11vh;
+}
+.addProjectBtn {
+    cursor: pointer;
+}
+.projectsNameBar {
+    display: flex;
+    margin-top: 0.5vh;
+    height: 4vh;
+}
+.projectsNameBar input {
+    border: 0;
+    background: white;
+    width: 75%;
+    height: 4vh;
+}
+input:focus {
+    outline: none;
+}
+select:focus {
+    outline: none;
+}
+.projectsNameBar button {
+    border: 0;
+    color: white;
+    background: #fa5f5f;
+    font-weight: bold;
+    width: 25%;
+}
+.projectsNameBar button:active {
+    background: #858585;
+}
+.projectErrorBox {
+    margin-top: 1vh;
+    height: 2vh;
+    color: red;
+}
+.projectErrorBox .projectErrorMsg {
+    padding: 0;
+    font-size: 2vh;
+}
+.actualProjectsList {
+    flex-direction: column;
+    padding: 0 1.5vh 0 1.5vh;
+    overflow: auto;
+    max-height: 50vh;
+}
+.footer {
+    background: #858585;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    height: 10vh;
+    font-weight: bold;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+.mobileMenuBtn {
+    position: absolute;
+    left: 3vh;
+    width: 5vh;
+    height: 5vh;
+    font-size: 3vh;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: white;
+    color: #f78383;
+    display: flex;
+}
+.content {
+    max-height: 75vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+.actualProjectBox {
+    width: 60%;
+    padding: 5vh;
+    color: black;
+}
+.projectBoxBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4vh 0 2vh;
+}
+.projectBoxBar .actualProjectName {
+    font-size: 4vh;
+}
+.addTaskBtn {
+    cursor: pointer;
+}
+.addTaskBtn i {
+    font-size: 4vh;
+}
+.actualTasks {
+    width: 100%;
+}
+.task {
+    background: #f78383;
+    height: 5vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 0 4vh 0 4vh;
+    align-items: center;
+    border: 1px solid white;
+    font-weight: bold;
+    font-size: 2vh;
+    color: white;
+}
+.taskHead {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    width: 50%;
+}
+.taskName, .taskDate {
+    background: transparent;
+    color: white;
+    border: 0;
+    font-weight: bold;
+    font-size: 2vh;
+}
+.taskName:enabled {
+    width: 90%;
+}
+.taskDate:enabled {
+    width: 36%; 
+}
+.dateBox {
+    width: 45%;
+}
+
+.operationBtns {
+    display: flex;
+    gap: 1vh;
+    width: 5%;
+}
+.operationBtns i {
+    cursor: pointer;
+}
+.task:hover {
+    background: #fa5f5f;
+}
+@media only screen and (max-width: 900px) {
+    .logo {
+        font-size: 4vh;
+    }
+    .leftMenu {
+        display: none;  
+        position: absolute;
+        left: 0;
+        right: 0;
+        width: 100%;
+        align-items: center;
+        font-size: 2.5vh;
+    }
+    .actualProjectBox {
+        width: 100%;
+    }
+    .addProjectBox {
+        padding: 0;
+        margin-top: 1vh;
+        max-width: 30vh;
+        align-self: center;
+        height: 10vh;
+    }
+    .task {
+        padding: 0 1vh 0 1vh;
+    }
+    .projectBoxBar {
+        padding: 0 1vh 0 1vh;
+    }
+    .addTaskBox {
+        width: 95%;
+        height: 40%;
+    }
+    .errorMsgBox {
+        height: 2vh;
+        margin-bottom: 1vh;
+    }
+    .taskHead {
+        width: 40%;
+    }
+    .taskHead .taskName:enabled {
+        width: 80%;
+    }
+    .dateBox {
+        width: 45%;
+    }
+    .dateBox input:enabled {
+        width: 85%;
+    }
+    .operationBtns {
+        width: 15%;
+    }
+    .projectErrorBox .projectErrorMsg {
+        font-size: 1.8vh;
+    }
+}
+::-webkit-calendar-picker-indicator{
+    margin-left: 0px;
+}
