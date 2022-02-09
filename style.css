@@ -311,6 +311,7 @@ select:focus {
     background: white;
     color: #f78383;
     display: flex;
+    cursor: pointer;
 }
 .content {
     max-height: 75vh;
@@ -332,6 +333,9 @@ select:focus {
 }
 .projectBoxBar .actualProjectName {
     font-size: 4vh;
+}
+.singleProject {
+    cursor: pointer;
 }
 .addTaskBtn {
     cursor: pointer;
