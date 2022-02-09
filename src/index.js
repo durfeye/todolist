@@ -1,6 +1,9 @@
 import { format, addDays } from 'date-fns';
 import './style.css';
 
+let mainTasksStorage;
+let projectsArrStorage;
+
 //get todays date
 const date = new Date();
 const todaysDateFormated = format(date, "yyyy-MM-dd");
@@ -10,6 +13,42 @@ let mainTasks = [];
 
 //making array for our projects
 let projectsArr = [];
+
+const ifStorageExists = () => {
+    if (localStorage.getItem('mainTasks') && localStorage.getItem('projectsArr')) {
+        return;
+    }
+    else if (localStorage.getItem('mainTasks') && !localStorage.getItem('projectsArr')) {
+        localStorage.setItem('projectsArr', JSON.stringify(projectsArr));
+    }
+    else if (localStorage.getItem('projectsArr') && !localStorage.getItem('mainTasks')) {
+        localStorage.setItem('mainTasks', JSON.stringify(mainTasks));
+    }
+    else {
+        localStorage.setItem('mainTasks', JSON.stringify(mainTasks));
+        localStorage.setItem('projectsArr', JSON.stringify(projectsArr));
+    }
+    mainTasksStorage = JSON.parse(localStorage.getItem('mainTasks'));
+    projectsArrStorage = JSON.parse(localStorage.getItem('projectsArr'));
+}
+
+window.onload = ifStorageExists();
+
+
+//save in storage
+const saveInStorage = () => {
+    localStorage.setItem('mainTasks', JSON.stringify(mainTasks));
+    localStorage.setItem('projectsArr', JSON.stringify(projectsArr));
+}
+
+//get from storage
+const getFromStorage = () => {
+    mainTasksStorage = JSON.parse(localStorage.getItem('mainTasks'));
+    projectsArrStorage = JSON.parse(localStorage.getItem('projectsArr'));
+    mainTasks = mainTasksStorage;
+    projectsArr = projectsArrStorage;
+}
+getFromStorage();
 
 //get error msg under information in taskbox if taskdesc = ''
 let errorMsg = document.querySelector('.errorMsg');
@@ -22,6 +61,7 @@ class baseTasks {
     }
     addToArray(newTask) {
         mainTasks.push(newTask);
+        saveInStorage();
     }
 }
 
@@ -32,6 +72,7 @@ class projects {
     }
     addToArray(newProject) {
         projectsArr.push(newProject);
+        saveInStorage();
     }
 }
 
@@ -45,6 +86,7 @@ class usersProjectTask {
         let actualProjectName = document.querySelector('.actualProjectName');
         const actualProject = projectsArr.find(element => element.name == actualProjectName.textContent);
         actualProject.projectTasks.push(newTask);
+        saveInStorage();
     }
 }
 
@@ -418,11 +460,14 @@ const deleteTask = (taskId) => {
     const actualProject = projectsArr.find(element => element.name == actualProjectName.textContent);
     if (actualProject) {
         actualProject.projectTasks.splice(taskId, 1);
+        localStorage.removeItem(mainTasksStorage, taskId);
+        localStorage.setItem('projectsArr', JSON.stringify(projectsArr));
         makeTaskList(actualProject.projectTasks);
         console.log(projectsArr);
     }
     else {
         mainTasks.splice(taskId, 1);
+        localStorage.setItem('mainTasks', JSON.stringify(mainTasks));
         makeTaskList(mainTasks);
         console.log(mainTasks);
     }
@@ -457,11 +502,11 @@ const actualTaskList = () => {
     const nextWeekDate = addDays(date, 7);
     const nextWeekDateFormated = format(nextWeekDate, "yyyy-MM-dd");
     let actualProjectName = document.querySelector('.actualProjectName');
-    let todaysTasks = mainTasks.filter(singleTask => singleTask.date === todaysDateFormated);
-    let nextWeekTasks = mainTasks.filter(singleTask => singleTask.date <= nextWeekDateFormated);
-    const actualProject = projectsArr.find(element => element.name == actualProjectName.textContent);
+    let todaysTasks = mainTasksStorage.filter(singleTask => singleTask.date === todaysDateFormated);
+    let nextWeekTasks = mainTasksStorage.filter(singleTask => singleTask.date <= nextWeekDateFormated);
+    const actualProject = projectsArrStorage.find(element => element.name == actualProjectName.textContent);
     if (actualProjectName.textContent == 'Inbox') {
-        makeTaskList(mainTasks);
+        makeTaskList(mainTasksStorage);
         console.log(mainTasks);
     }
     else if (actualProjectName.textContent == 'Today') {
@@ -480,6 +525,8 @@ const actualTaskList = () => {
     taskImportance.value = 'Low';
     taskDate.value = '';
 }
+
+actualTaskList();
 
 //make single project element 
 const makeSingleProject = ((projectElem) => {
@@ -514,14 +561,17 @@ const showActualProjectsList = (array) => {
         makeSingleProject.projectsName(singleProject);
         makeSingleProject.deleteProjectBtn(projectId);
         usersProjectsChoice();
-    })
+    });
 }
+
+showActualProjectsList(projectsArr);
 
 //function which deletes single project
 const deleteProject = (projectId) => {
     let actualProjectName = document.querySelector('.actualProjectName');
     actualProjectName.textContent = 'Inbox';
     projectsArr.splice(projectId, 1);
+    localStorage.setItem('projectsArr', JSON.stringify(projectsArr));
     showActualProjectsList(projectsArr);
     makeTaskList(mainTasks);
     console.log(projectsArr);

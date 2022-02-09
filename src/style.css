@@ -291,6 +291,7 @@ select:focus {
     display: flex;
     justify-content: space-between;
     padding: 0.5vh 3.2vh 0.5vh 0;
+    cursor: pointer;
 }
 .singleProject:hover {
     background: #fa5f5f;
@@ -325,6 +326,7 @@ select:focus {
     background: white;
     color: #f78383;
     display: flex;
+    cursor: pointer;
 }
 .content {
     max-height: 75vh;
